@@ -54,7 +54,7 @@ def createLedger(numAccounts):
 
 
 @pytest.fixture
-def TEST_POOLS(request):
+def TEST_POOLS():
     return UniswapPool
 
 
