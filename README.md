@@ -1,9 +1,9 @@
-## python-uniswap-v3
+## Python-uniswap-v3
 Pythonized Uniswap v3
 
 ## Dependencies
 
-- Python 2.7 or 3.5+
+- Python >=3.7.3, <3.10
 For Ubuntu `sudo apt-get install python3 python-dev python3-dev build-essential`
 - [Poetry (Python dependency manager)](https://python-poetry.org/docs/)
 
@@ -21,8 +21,9 @@ poetry install
 
 ### Running Tests
 
-We use pytest to run the tests
+We use pytest to run the tests.
 
 ```bash
 pytest
+pytest <test-name>
 ```
