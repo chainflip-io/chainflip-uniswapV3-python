@@ -5,7 +5,7 @@ import math, copy
 from decimal import *
 import pytest
 
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "contracts"))
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "src"))
 from Shared import *
 
 TEST_TOKENS = ["Token0", "Token1"]
