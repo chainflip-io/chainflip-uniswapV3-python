@@ -7,6 +7,7 @@ import SwapMath, TickMath
 
 import copy
 
+
 @pytest.fixture
 def accounts(ledger):
     return getAccountsFromLedger(ledger)
@@ -51,10 +52,10 @@ def createLedger(numAccounts):
     ledger = Ledger(accounts[0:numAccounts])
     return ledger
 
+
 @pytest.fixture
 def TEST_POOLS(request):
     return UniswapPool
-
 
 
 def createPool(TEST_POOLS, feeAmount, tickSpacing, ledger):
