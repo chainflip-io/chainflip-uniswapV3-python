@@ -5,6 +5,7 @@ import math, copy
 from decimal import *
 import pytest
 
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "src/libraries"))
 sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "src"))
 from Shared import *
 

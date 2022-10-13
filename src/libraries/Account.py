@@ -1,6 +1,8 @@
 from Shared import *
 import secrets
 
+# This module is created to mimick blockchain accounts and their balances.
+
 # For now this will only support the tokens that are initialized in the constructor function. Tranfering or receiving
 # other tokens will fail (token not in balances dict).
 class Account:
