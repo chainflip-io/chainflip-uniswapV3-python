@@ -77,3 +77,7 @@ class Ledger:
     def balanceOf(self, address, token):
         checkInputTypes(string=(address, token))
         return self.accounts[address].balances[token]
+
+    def setBalance(self, address, token, amount):
+        checkInputTypes(string=(address, token), uint256=amount)
+        self.accounts[address].balances[token] = amount

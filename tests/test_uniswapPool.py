@@ -10,46 +10,21 @@ import copy
 
 @pytest.fixture
 def accounts(ledger):
-    return getAccountsFromLedger(ledger)
-
-
-def getAccountsFromLedger(l):
     # return [ledger.accounts[account] for account in ledger.accounts.keys()]
     # list of raw addresses
-    return list(l.accounts.keys())
+    return list(ledger.accounts.keys())
 
 
 @pytest.fixture
 def ledger():
-    return createLedger(6)
-
-
-def createLedger(numAccounts):
-    # Fund them with infinite tokens
-    account0 = [
-        "ALICE",
-        TEST_TOKENS,
-        [MAX_INT256 // 100, MAX_INT256 // 100 // 100],
+    # Create multiple accounts and fund them with a large amount of tokens. Imbalanced
+    # between token0 and token1 to avoid masking errors.
+    accountNames = ["ALICE", "BOB", "CHARLIE", "DENICE", "EVA", "FINN"]
+    accounts = [
+        [accountName, TEST_TOKENS, [MAX_INT256 // 1000, MAX_INT256 // 2000]]
+        for accountName in accountNames
     ]
-    account1 = ["BOB", TEST_TOKENS, [MAX_INT256 // 100, MAX_INT256 // 100]]
-    account2 = ["CHARLIE", TEST_TOKENS, [1000, 2000]]
-    account3 = [
-        "DENICE",
-        TEST_TOKENS,
-        [expandTo18Decimals(10), expandTo18Decimals(10)],
-    ]
-    account4 = [
-        "EVA",
-        TEST_TOKENS,
-        [MAX_INT256 // 100, MAX_INT256 // 100],
-    ]
-    account5 = [
-        "FINN",
-        TEST_TOKENS,
-        [MAX_INT256 // 100, MAX_INT256 // 100],
-    ]
-    accounts = [account0, account1, account2, account3, account4, account5]
-    ledger = Ledger(accounts[0:numAccounts])
+    ledger = Ledger(accounts)
     return ledger
 
 
@@ -1562,6 +1537,9 @@ def test_enoughBalance_token0(initializedPoolSwapBalances, accounts, ledger):
     print("swapper swaps all token0")
     pool, _, _, _, _ = initializedPoolSwapBalances
 
+    # Set the balance of the account to < MAX_INT128
+    ledger.accounts[accounts[2]].balances[TEST_TOKENS[0]] = expandTo18Decimals(1)
+
     swapExact0For1(
         pool, ledger.balanceOf(accounts[2], TEST_TOKENS[0]), accounts[2], None
     )
@@ -1572,6 +1550,9 @@ def test_enoughBalance_token1(initializedPoolSwapBalances, accounts, ledger):
     print("swapper doesn't have enough token0")
     pool, _, _, _, _ = initializedPoolSwapBalances
 
+    # Set the balance of the account to < MAX_INT128
+    ledger.accounts[accounts[2]].balances[TEST_TOKENS[1]] = expandTo18Decimals(1)
+
     swapExact1For0(
         pool, ledger.balanceOf(accounts[2], TEST_TOKENS[1]), accounts[2], None
     )
@@ -1581,7 +1562,11 @@ def test_enoughBalance_token1(initializedPoolSwapBalances, accounts, ledger):
 def test_notEnoughBalance_token0(initializedPoolSwapBalances, accounts, ledger):
     print("swapper doesn't have enough token0")
     pool, _, _, _, _ = initializedPoolSwapBalances
+
+    # Set the balance of the account to < MAX_INT128
+    ledger.accounts[accounts[2]].balances[TEST_TOKENS[0]] = expandTo18Decimals(1)
     initialBalanceToken0 = ledger.balanceOf(accounts[2], TEST_TOKENS[0])
+
     tryExceptHandler(
         swapExact0For1,
         "Insufficient balance",
@@ -1596,7 +1581,11 @@ def test_notEnoughBalance_token0(initializedPoolSwapBalances, accounts, ledger):
 def test_notEnoughBalance_token1(initializedPoolSwapBalances, accounts, ledger):
     print("swapper doesn't have enough token1")
     pool, _, _, _, _ = initializedPoolSwapBalances
+
+    # Set the balance of the account to < MAX_INT128
+    ledger.accounts[accounts[2]].balances[TEST_TOKENS[1]] = expandTo18Decimals(1)
     initialBalanceToken1 = ledger.balanceOf(accounts[2], TEST_TOKENS[1])
+
     tryExceptHandler(
         swapExact1For0,
         "Insufficient balance",
