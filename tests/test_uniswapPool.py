@@ -18,6 +18,7 @@ def getAccountsFromLedger(l):
     # list of raw addresses
     return list(l.accounts.keys())
 
+
 @pytest.fixture
 def ledger():
     return createLedger()

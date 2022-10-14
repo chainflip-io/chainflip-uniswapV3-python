@@ -113,10 +113,6 @@ class UniswapPool(Account):
         assert tickLower >= TickMath.MIN_TICK, "TLM"
         assert tickUpper <= TickMath.MAX_TICK, "TUM"
 
-    ## Skipped `snapshotCumulativesInside`
-
-    ### @inheritdoc IUniswapV3PoolActions
-    ### @dev not locked because it initializes unlocked
     def initialize(self, sqrtPriceX96):
         checkInputTypes(uint160=(sqrtPriceX96))
         assert self.slot0.sqrtPriceX96 == 0, "AI"
@@ -254,8 +250,6 @@ class UniswapPool(Account):
                 Tick.clear(self.ticks, tickUpper)
         return position
 
-    ### @inheritdoc IUniswapV3PoolActions
-    ### @dev noDelegateCall is applied indirectly via _modifyPosition
     def mint(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -275,7 +269,6 @@ class UniswapPool(Account):
 
         return (amount0, amount1)
 
-    ### @inheritdoc IUniswapV3PoolActions
     def collect(
         self, recipient, tickLower, tickUpper, amount0Requested, amount1Requested
     ):
@@ -309,8 +302,6 @@ class UniswapPool(Account):
 
         return (recipient, tickLower, tickUpper, amount0, amount1)
 
-    ### @inheritdoc IUniswapV3PoolActions
-    ### @dev noDelegateCall is applied indirectly via _modifyPosition
     def burn(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -335,7 +326,6 @@ class UniswapPool(Account):
 
         return (recipient, tickLower, tickUpper, amount, amount0, amount1)
 
-    ### @inheritdoc IUniswapV3PoolActions
     def swap(self, recipient, zeroForOne, amountSpecified, sqrtPriceLimitX96):
         checkInputTypes(
             accounts=(recipient),
