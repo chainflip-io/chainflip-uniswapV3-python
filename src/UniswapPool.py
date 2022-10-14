@@ -568,16 +568,14 @@ class UniswapPool(Account):
     ### @param self The mapping in which to compute the next initialized tick
     ### @param tick The starting tick
     ### @param lte Whether to search for the next initialized tick to the left (less than or equal to the starting tick)
-    ### @return next The next initialized or uninitialized tick => int24
-    ### @return initialized Whether the next tick is initialized to signal if we have reached an initialized boundary
     def nextTick(self, tick, lte):
         checkInputTypes(int24=(tick), bool=(lte))
 
         keyList = list(self.ticks.keys())
 
         # If tick doesn't exist in the mapping we fake it (easier than searching for nearest value)
-        # NOTE: There might be a better way to do this(with numPy or other) and maybe a better way in Rust.
-        # Just keeping it simple here
+        # NOTE: This is probably not the best efficient way, but this probably will be done very differently in the real AMM
+        # smart contract implementation anyway. Functionality should be equivalent and it's alright for this model.
         if not self.ticks.__contains__(tick):
             keyList += [tick]
         sortedKeyList = sorted(keyList)
