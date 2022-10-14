@@ -10,13 +10,20 @@ import copy
 
 @pytest.fixture
 def accounts(ledger):
+    return getAccountsFromLedger(ledger)
+
+
+def getAccountsFromLedger(l):
     # return [ledger.accounts[account] for account in ledger.accounts.keys()]
     # list of raw addresses
-    return list(ledger.accounts.keys())
-
+    return list(l.accounts.keys())
 
 @pytest.fixture
 def ledger():
+    return createLedger()
+
+
+def createLedger():
     # Create multiple accounts and fund them with a large amount of tokens. Imbalanced
     # between token0 and token1 to avoid masking errors.
     accountNames = ["ALICE", "BOB", "CHARLIE", "DENICE", "EVA", "FINN"]
