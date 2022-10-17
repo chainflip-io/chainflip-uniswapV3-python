@@ -1,6 +1,5 @@
-from utilities import *
-import TickMath
-import SqrtPriceMath
+from .utilities import *
+from ..src.libraries import TickMath, SqrtPriceMath
 
 # Division in solidity and in python (and js) retrun slightly different values when dividing. E.g. mulDivRoundingUp => a*b/c will return
 # different values. Also, we have removed some of the rounding in the contracts, which

@@ -1,6 +1,6 @@
-import LiquidityMath, FullMath
+from . import LiquidityMath, FullMath
 
-from Shared import *
+from .Shared import *
 
 ### @title Position
 ### @notice Positions represent an owner address' liquidity between a lower and upper tick boundary

@@ -1,5 +1,6 @@
-from Shared import *
-import SafeMath, math, FullMath
+from .Shared import *
+import math
+from . import SafeMath, FullMath
 
 
 ### @title defs based on Q64.96 sqrt price and liquidity

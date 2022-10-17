@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: trialpythonuniswapv3
+Version: 0.0.4
+Summary: Pythonized Uniswap V3
+Home-page: https://github.com/chainflip-io/python-uniswap-v3
+Author: Chainflip Labs
+Author-email: albert@chainflip.io
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+## Python-uniswap-v3
+Pythonized Uniswap v3
+
+## Dependencies
+
+- Python >=3.7.3, <3.10
+For Ubuntu `sudo apt-get install python3 python-dev python3-dev build-essential`
+- [Poetry (Python dependency manager)](https://python-poetry.org/docs/)
+
+
+## Setup
+
+First, ensure you have [Poetry](https://python-poetry.org) installed
+
+```bash
+git clone git@github.com:chainflip-io/python-uniswap-v3.git
+cd python-uniswap-v3
+poetry shell
+poetry install
+```
+
+### Running Tests
+
+We use pytest to run the tests.
+
+```bash
+pytest
+pytest <test-name>
+```

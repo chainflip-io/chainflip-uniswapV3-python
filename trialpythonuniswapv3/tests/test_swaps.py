@@ -1,10 +1,10 @@
-from utilities import *
-from poolFixtures import *
-from test_uniswapPool import accounts, ledger
-from UniswapV3PoolSwaps import swapsSnapshot
+from .utilities import *
+from .poolFixtures import *
+from .test_uniswapPool import accounts, ledger
+from .UniswapV3PoolSwaps import swapsSnapshot
 
-from UniswapPool import *
-from Factory import *
+from ..src.UniswapPool import *
+from ..src.libraries.Factory import *
 
 
 @pytest.fixture(params=[*range(0, 15, 1)])

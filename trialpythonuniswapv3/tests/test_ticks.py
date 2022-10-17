@@ -1,8 +1,8 @@
-from utilities import *
-from test_uniswapPool import ledger
+from .utilities import *
+from .test_uniswapPool import ledger
 
-from UniswapPool import *
-import TickMath
+from ..src.UniswapPool import *
+from ..src.libraries import TickMath
 
 # Instead of testing tickBitmap library, we test the UniswapPool ticks python dict and
 # nextTick functionality, which should be equivalent.

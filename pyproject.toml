@@ -2,7 +2,7 @@
 name = "python-uniswap-v3"
 version = "0.1.0"
 description = ""
-authors = ["Albert Llimos <albert@chainflip.io>"]
+authors = ["Chainflip Labs <albert@chainflip.io>"]
 
 [tool.poetry.dependencies]
 python = ">=3.7.3, <3.10"
@@ -11,5 +11,5 @@ hypothesis = "6.56.2"
 black = "22.10.0"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ['setuptools>=42']
+build-backend = 'setuptools.build_meta'

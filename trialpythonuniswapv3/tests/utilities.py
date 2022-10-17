@@ -1,13 +1,9 @@
-import sys, os
 
-import traceback
-import math, copy
+import sys, traceback, math, copy
 from decimal import *
 import pytest
 
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "src/libraries"))
-sys.path.append(os.path.join(os.path.dirname(sys.path[0]), "src"))
-from Shared import *
+from ..src.libraries.Shared import *
 
 TEST_TOKENS = ["Token0", "Token1"]
 

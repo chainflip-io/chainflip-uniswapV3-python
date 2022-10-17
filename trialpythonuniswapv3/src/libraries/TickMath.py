@@ -1,4 +1,4 @@
-from Shared import *
+from .Shared import *
 
 ### @notice Calculates sqrt(1.0001^tick) * 2^96
 ### @dev Throws if |tick| > max tick

@@ -1,5 +1,5 @@
-from utilities import *
-from Account import Account, Ledger
+from .utilities import *
+from ..src.libraries.Account import Account, Ledger
 
 
 def test_tokenTransfer():
