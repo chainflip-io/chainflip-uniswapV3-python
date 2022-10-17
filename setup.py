@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="trialpythonuniswapv3",
+    name="pythonUniswapV3",
     version="0.0.4",
     author="Chainflip Labs",
     author_email="albert@chainflip.io",
@@ -18,10 +18,10 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=[
-        "trialpythonuniswapv3",
-        "trialpythonuniswapv3.src",
-        "trialpythonuniswapv3.src.libraries",
-        "trialpythonuniswapv3.tests",
+        "pythonUniswapV3",
+        "pythonUniswapV3.src",
+        "pythonUniswapV3.src.libraries",
+        "pythonUniswapV3.tests",
     ],
     python_requires=">=3.7",
 )
