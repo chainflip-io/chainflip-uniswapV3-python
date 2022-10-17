@@ -114,10 +114,6 @@ class UniswapPool(Account):
         assert tickLower >= TickMath.MIN_TICK, "TLM"
         assert tickUpper <= TickMath.MAX_TICK, "TUM"
 
-    ## Skipped `snapshotCumulativesInside`
-
-    ### @inheritdoc IUniswapV3PoolActions
-    ### @dev not locked because it initializes unlocked
     def initialize(self, sqrtPriceX96):
         checkInputTypes(uint160=(sqrtPriceX96))
         assert self.slot0.sqrtPriceX96 == 0, "AI"
@@ -255,8 +251,6 @@ class UniswapPool(Account):
                 Tick.clear(self.ticks, tickUpper)
         return position
 
-    ### @inheritdoc IUniswapV3PoolActions
-    ### @dev noDelegateCall is applied indirectly via _modifyPosition
     def mint(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -276,7 +270,6 @@ class UniswapPool(Account):
 
         return (amount0, amount1)
 
-    ### @inheritdoc IUniswapV3PoolActions
     def collect(
         self, recipient, tickLower, tickUpper, amount0Requested, amount1Requested
     ):
@@ -310,8 +303,6 @@ class UniswapPool(Account):
 
         return (recipient, tickLower, tickUpper, amount0, amount1)
 
-    ### @inheritdoc IUniswapV3PoolActions
-    ### @dev noDelegateCall is applied indirectly via _modifyPosition
     def burn(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -336,7 +327,6 @@ class UniswapPool(Account):
 
         return (recipient, tickLower, tickUpper, amount, amount0, amount1)
 
-    ### @inheritdoc IUniswapV3PoolActions
     def swap(self, recipient, zeroForOne, amountSpecified, sqrtPriceLimitX96):
         checkInputTypes(
             accounts=(recipient),
@@ -579,16 +569,14 @@ class UniswapPool(Account):
     ### @param self The mapping in which to compute the next initialized tick
     ### @param tick The starting tick
     ### @param lte Whether to search for the next initialized tick to the left (less than or equal to the starting tick)
-    ### @return next The next initialized or uninitialized tick => int24
-    ### @return initialized Whether the next tick is initialized to signal if we have reached an initialized boundary
     def nextTick(self, tick, lte):
         checkInputTypes(int24=(tick), bool=(lte))
 
         keyList = list(self.ticks.keys())
 
         # If tick doesn't exist in the mapping we fake it (easier than searching for nearest value)
-        # NOTE: There might be a better way to do this(with numPy or other) and maybe a better way in Rust.
-        # Just keeping it simple here
+        # NOTE: This is probably not the best efficient way, but this probably will be done very differently in the real AMM
+        # smart contract implementation anyway. Functionality should be equivalent and it's alright for this model.
         if not self.ticks.__contains__(tick):
             keyList += [tick]
         sortedKeyList = sorted(keyList)

@@ -2,6 +2,7 @@ import math
 from .utilities import *
 from ..src.libraries import TickMath
 
+
 def test_throws_low():
     print("throws for too low test0")
     tryExceptHandler(TickMath.getSqrtRatioAtTick, "T", (MIN_TICK - 1))
