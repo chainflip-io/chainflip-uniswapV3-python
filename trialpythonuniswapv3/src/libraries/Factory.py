@@ -1,4 +1,4 @@
-from trialpythonuniswapv3.src.libraries.Shared import checkInputTypes
+from .Shared import checkInputTypes
 from ..UniswapPool import *
 
 
