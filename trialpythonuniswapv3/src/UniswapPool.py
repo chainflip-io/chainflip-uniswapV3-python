@@ -1,8 +1,9 @@
-import Tick, TickMath, SwapMath, FullMath, LiquidityMath
-import Position, SqrtPriceMath, SafeMath
+from .libraries import Tick, TickMath, SwapMath, FullMath, LiquidityMath
+from .libraries import Position, SqrtPriceMath, SafeMath
 
-from Account import Account
-from Shared import *
+from .libraries.Account import Account
+from .libraries.Shared import *
+from dataclasses import dataclass
 
 
 @dataclass

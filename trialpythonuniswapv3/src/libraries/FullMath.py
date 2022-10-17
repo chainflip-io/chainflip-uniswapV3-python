@@ -1,4 +1,4 @@
-from Shared import *
+from .Shared import *
 
 # Using math.ceil or math.floor with simple / doesnt get the exact result.
 def mulDivRoundingUp(a, b, c):

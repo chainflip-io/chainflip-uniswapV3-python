@@ -1,6 +1,6 @@
 import math
-from utilities import *
-import TickMath
+from .utilities import *
+from ..src.libraries import TickMath
 
 
 def test_throws_low():

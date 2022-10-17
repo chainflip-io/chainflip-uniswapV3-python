@@ -1,6 +1,6 @@
-from UniswapPool import *
-from utilities import *
-import Tick
+from ..src.UniswapPool import *
+from ..src.libraries import Tick
+from .utilities import *
 
 
 # tickSpacingToMaxLiquidityPerTick

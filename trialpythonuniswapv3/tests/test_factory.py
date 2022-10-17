@@ -1,7 +1,7 @@
-from test_uniswapPool import ledger
+from .test_uniswapPool import ledger
 
-from Factory import Factory
-from utilities import *
+from ..src.libraries.Factory import *
+from .utilities import *
 
 TEST_ADDRESSES = [
     "0x1000000000000000000000000000000000000000",

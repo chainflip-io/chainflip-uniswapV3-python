@@ -1,4 +1,4 @@
-import TickMath
+from . import TickMath
 
 ### @title Math library for liquidity
 

@@ -1,4 +1,4 @@
-from Shared import *
+from .Shared import *
 import secrets
 
 # This module is created to mimick blockchain accounts and their balances.

@@ -1,5 +1,5 @@
-from Shared import *
-import TickMath
+from .Shared import *
+from . import TickMath
 
 ### @title Overflow and underflow math operations.
 ### @notice Contains methods for doing math operations that revert on overflow or underflow for minimal gas cost.Mimic solidity overflow and underflow check as in some cases the check is a safeguard.

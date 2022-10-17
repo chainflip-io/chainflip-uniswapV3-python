@@ -1,7 +1,5 @@
-from utilities import *
-import SwapMath
-import SqrtPriceMath
-
+from .utilities import *
+from ..src.libraries import SwapMath, SqrtPriceMath
 
 # ComputeSwapStep
 

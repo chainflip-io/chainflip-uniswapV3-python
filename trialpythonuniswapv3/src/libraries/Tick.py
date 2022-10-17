@@ -1,5 +1,6 @@
-import TickMath, LiquidityMath, SafeMath, math
-from Shared import *
+from . import TickMath, LiquidityMath, SafeMath
+import math
+from .Shared import *
 
 
 ### @notice Derives max liquidity per tick from given tick spacing

@@ -1,5 +1,5 @@
-import SqrtPriceMath, FullMath
-from Shared import *
+from . import SqrtPriceMath, FullMath
+from .Shared import *
 
 ### @title Computes the result of a swap within ticks
 ### @notice Contains methods for computing the result of a swap within a single tick price range, i.e., a single tick.
