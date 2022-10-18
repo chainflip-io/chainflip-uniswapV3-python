@@ -1,6 +1,9 @@
 ## Pythonized Uniswap V3
-This repository contains a pythonized version of the popular Uniswap V3 AMM. It aims to provide a python model of the AMM with a high-level of accuracy.
-It intends to mimicks the Solidity implementation with no further optimizations. This is because the goal is not to make an optimized model but rather to mirror the original code to allow for easy debugging and further development. Therefore, only a few abstractions have been made for a more comprehensible and simplified model - e.g. using Python dictionary features instead of the BitMap library in Solidity.
+This repository contains a pythonized version of the popular Uniswap V3 AMM. 
+
+The goal of this model is not to optimize the original design but rather to mirror the code and allow for easy debugging and further development. Therefore, only a few abstractions have been made for a more comprehensible and simplified model - e.g. using Python dictionary features instead of the BitMap library in Solidity.
+
+This implementation achieves a very high-accuracy model of the original Solidity code and it also includes the full testset.
 
 
 ## Dependencies
@@ -31,7 +34,7 @@ pytest <test-name>
 ```
 
 ### Package Installation
-This model has been included in a Python package that can be easily installed via any Python package manager.
+To be able to easily use this code outside the repository itself, it has been included in a Python package that can be easily installed via any Python package manager.
 
 Via Pip:
 
