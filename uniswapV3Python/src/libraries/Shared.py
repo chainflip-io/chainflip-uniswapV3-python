@@ -26,9 +26,6 @@ FixedPoint96_Q96 = 0x1000000000000000000000000
 
 ONE_IN_PIPS = 1000000
 
-## Mimicking a float point number with a 256 bit mantissa (== 10E77)
-contextPrecision = 77
-
 ### The minimum tick that may be passed to #getSqrtRatioAtTick computed from log base 1.0001 of 2**-128
 MIN_TICK = -887272
 ### The maximum tick that may be passed to #getSqrtRatioAtTick computed from log base 1.0001 of 2**128
