@@ -255,16 +255,15 @@ class UniswapPool(Account):
         return position
 
     ## @notice Adds liquidity for the given recipient/tickLower/tickUpper position
-    ## @dev The caller of this method receives a callback in the form of IUniswapV3MintCallback#uniswapV3MintCallback
-    ## in which they must pay any token0 or token1 owed for the liquidity. The amount of token0/token1 due depends
+    ## @dev The final amounts calculated are automatically transferred from the swapper
+    ## to the pool and vice verse. The amount of token0/token1 due depends
     ## on tickLower, tickUpper, the amount of liquidity, and the current price.
     ## @param recipient The address for which the liquidity will be created
     ## @param tickLower The lower tick of the position in which to add liquidity
     ## @param tickUpper The upper tick of the position in which to add liquidity
     ## @param amount The amount of liquidity to mint
-    ## @param data Any data that should be passed through to the callback
-    ## @return amount0 The amount of token0 that was paid to mint the given amount of liquidity. Matches the value in the callback
-    ## @return amount1 The amount of token1 that was paid to mint the given amount of liquidity. Matches the value in the callback
+    ## @return amount0 The amount of token0 that was paid to mint the given amount of liquidity.
+    ## @return amount1 The amount of token1 that was paid to mint the given amount of liquidity.
     def mint(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -362,13 +361,12 @@ class UniswapPool(Account):
         return (recipient, tickLower, tickUpper, amount, amount0, amount1)
 
     ## @notice Swap token0 for token1, or token1 for token0
-    ## @dev The caller of this method receives a callback in the form of IUniswapV3SwapCallback#uniswapV3SwapCallback
+    ## @dev The tokens are automatically transferred at the end of the swapping function.
     ## @param recipient The address to receive the output of the swap
     ## @param zeroForOne The direction of the swap, true for token0 to token1, false for token1 to token0
     ## @param amountSpecified The amount of the swap, which implicitly configures the swap as exact input (positive), or exact output (negative)
     ## @param sqrtPriceLimitX96 The Q64.96 sqrt price limit. If zero for one, the price cannot be less than this
     ## value after the swap. If one for zero, the price cannot be greater than this value after the swap
-    ## @param data Any data to be passed through to the callback
     ## @return amount0 The delta of the balance of token0 of the pool, exact when negative, minimum when positive
     ## @return amount1 The delta of the balance of token1 of the pool, exact when negative, minimum when positive
     def swap(self, recipient, zeroForOne, amountSpecified, sqrtPriceLimitX96):
