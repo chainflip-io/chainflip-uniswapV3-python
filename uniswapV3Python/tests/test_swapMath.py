@@ -8,7 +8,6 @@ def test_exactAmountIn_capped_notOneForZero():
     print("exact amount in that gets capped at price target in one for zero")
     price = encodePriceSqrt(1, 1)
     priceTarget = encodePriceSqrt(101, 100)
-    print("priceTarget:", priceTarget)
     liquidity = expandTo18Decimals(2)
     amount = expandTo18Decimals(1)
     fee = 600

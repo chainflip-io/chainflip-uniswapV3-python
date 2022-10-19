@@ -251,6 +251,17 @@ class UniswapPool(Account):
                 Tick.clear(self.ticks, tickUpper)
         return position
 
+    ## @notice Adds liquidity for the given recipient/tickLower/tickUpper position
+    ## @dev The caller of this method receives a callback in the form of IUniswapV3MintCallback#uniswapV3MintCallback
+    ## in which they must pay any token0 or token1 owed for the liquidity. The amount of token0/token1 due depends
+    ## on tickLower, tickUpper, the amount of liquidity, and the current price.
+    ## @param recipient The address for which the liquidity will be created
+    ## @param tickLower The lower tick of the position in which to add liquidity
+    ## @param tickUpper The upper tick of the position in which to add liquidity
+    ## @param amount The amount of liquidity to mint
+    ## @param data Any data that should be passed through to the callback
+    ## @return amount0 The amount of token0 that was paid to mint the given amount of liquidity. Matches the value in the callback
+    ## @return amount1 The amount of token1 that was paid to mint the given amount of liquidity. Matches the value in the callback
     def mint(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -270,6 +281,18 @@ class UniswapPool(Account):
 
         return (amount0, amount1)
 
+    ## @notice Collects tokens owed to a position
+    ## @dev Does not recompute fees earned, which must be done either via mint or burn of any amount of liquidity.
+    ## Collect must be called by the position owner. To withdraw only token0 or only token1, amount0Requested or
+    ## amount1Requested may be set to zero. To withdraw all tokens owed, caller may pass any value greater than the
+    ## actual tokens owed, e.g. type(uint128).max. Tokens owed may be from accumulated swap fees or burned liquidity.
+    ## @param recipient The address which should receive the fees collected
+    ## @param tickLower The lower tick of the position for which to collect fees
+    ## @param tickUpper The upper tick of the position for which to collect fees
+    ## @param amount0Requested How much token0 should be withdrawn from the fees owed
+    ## @param amount1Requested How much token1 should be withdrawn from the fees owed
+    ## @return amount0 The amount of fees collected in token0
+    ## @return amount1 The amount of fees collected in token1
     def collect(
         self, recipient, tickLower, tickUpper, amount0Requested, amount1Requested
     ):
@@ -303,6 +326,14 @@ class UniswapPool(Account):
 
         return (recipient, tickLower, tickUpper, amount0, amount1)
 
+    ## @notice Burn liquidity from the sender and account tokens owed for the liquidity to the position
+    ## @dev Can be used to trigger a recalculation of fees owed to a position by calling with an amount of 0
+    ## @dev Fees must be collected separately via a call to #collect
+    ## @param tickLower The lower tick of the position for which to burn liquidity
+    ## @param tickUpper The upper tick of the position for which to burn liquidity
+    ## @param amount How much liquidity to burn
+    ## @return amount0 The amount of token0 sent to the recipient
+    ## @return amount1 The amount of token1 sent to the recipient
     def burn(self, recipient, tickLower, tickUpper, amount):
         checkInputTypes(
             accounts=(recipient), int24=(tickLower, tickUpper), uint128=(amount)
@@ -327,6 +358,16 @@ class UniswapPool(Account):
 
         return (recipient, tickLower, tickUpper, amount, amount0, amount1)
 
+    ## @notice Swap token0 for token1, or token1 for token0
+    ## @dev The caller of this method receives a callback in the form of IUniswapV3SwapCallback#uniswapV3SwapCallback
+    ## @param recipient The address to receive the output of the swap
+    ## @param zeroForOne The direction of the swap, true for token0 to token1, false for token1 to token0
+    ## @param amountSpecified The amount of the swap, which implicitly configures the swap as exact input (positive), or exact output (negative)
+    ## @param sqrtPriceLimitX96 The Q64.96 sqrt price limit. If zero for one, the price cannot be less than this
+    ## value after the swap. If one for zero, the price cannot be greater than this value after the swap
+    ## @param data Any data to be passed through to the callback
+    ## @return amount0 The delta of the balance of token0 of the pool, exact when negative, minimum when positive
+    ## @return amount1 The delta of the balance of token1 of the pool, exact when negative, minimum when positive
     def swap(self, recipient, zeroForOne, amountSpecified, sqrtPriceLimitX96):
         checkInputTypes(
             accounts=(recipient),
@@ -562,7 +603,7 @@ class UniswapPool(Account):
 
         return recipient, amount0, amount1
 
-    # It is assumed that the keys are within [MIN_TICK , MAX_TICK]
+    # It is assumed that the keys are within [MIN_TICK , MAX_TICK], which should always be the case.
     # We don't run the risk of overshooting tickNext (out of boundaries) as long as ticks (keys) have been initialized
     # within the boundaries. However, if there is no initialized tick to the left or right we will return the next boundary
     # Then we need to return the initialized bool to indicate that we are at the boundary and it is not an initalized tick.
@@ -574,9 +615,8 @@ class UniswapPool(Account):
 
         keyList = list(self.ticks.keys())
 
-        # If tick doesn't exist in the mapping we fake it (easier than searching for nearest value)
-        # NOTE: This is probably not the best efficient way, but this probably will be done very differently in the real AMM
-        # smart contract implementation anyway. Functionality should be equivalent and it's alright for this model.
+        # If tick doesn't exist in the mapping we fake it (easier than searching for nearest value). This is probably not the
+        # best way, but it is a simple and intuitive way to reproduce the behaviour of the logic.
         if not self.ticks.__contains__(tick):
             keyList += [tick]
         sortedKeyList = sorted(keyList)

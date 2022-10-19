@@ -4,9 +4,7 @@ from .Shared import *
 
 ### @title Position
 ### @notice Positions represent an owner address' liquidity between a lower and upper tick boundary
-### @dev Positions store additional state for tracking fees owed to the position
-
-
+### @dev Positions store additional state for tracking fees owed to the position.
 @dataclass
 class PositionInfo:
     ## the amount of liquidity owned by this position
@@ -77,7 +75,7 @@ def update(self, liquidityDelta, feeGrowthInside0X128, feeGrowthInside1X128):
 
     # NOTE: TokensOwed can be > MAX_UINT128 and < MAX_UINT256. Uniswap cast tokensOwed into uint128. This in itself
     # is an overflow and it can overflow again when adding self.tokensOwed0 += tokensOwed0. Uniswap finds this
-    # acceptable to save gas. Is this OK for us?
+    # acceptable to save gas and that behaviour is reproduced here.
 
     # Mimic Uniswap's solidity code overflow - uint128(tokensOwed0)
     if tokensOwed0 > MAX_UINT128:

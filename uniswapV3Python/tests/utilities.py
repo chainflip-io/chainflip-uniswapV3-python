@@ -32,10 +32,9 @@ TICK_SPACINGS = {FeeAmount.LOW: 10, FeeAmount.MEDIUM: 60, FeeAmount.HIGH: 200}
 
 def encodePriceSqrt(reserve1, reserve0):
     # Workaround to get the same numbers as JS
-
     # This ratio doesn't output the same number as in JS using big number. This causes some
-    # disparities in the resuults expected. Full ratios (1,1), (2,1) ...
-    # Forcing values obtained by bigNumber.js when ratio is not exact
+    # disparities in the expected results. Full ratios (1,1), (2,1) ...
+    # Forcing values obtained by bigNumber.js when ratio is not exact.
     if reserve1 == 121 and reserve0 == 100:
         return 87150978765690771352898345369
     elif reserve1 == 101 and reserve0 == 100:

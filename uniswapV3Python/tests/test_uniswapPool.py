@@ -14,7 +14,6 @@ def accounts(ledger):
 
 
 def getAccountsFromLedger(l):
-    # return [ledger.accounts[account] for account in ledger.accounts.keys()]
     # list of raw addresses
     return list(l.accounts.keys())
 
@@ -25,7 +24,7 @@ def ledger():
 
 
 def createLedger():
-    # Create multiple accounts and fund them with a large amount of tokens. Imbalanced
+    # Create multiple accounts and fund them with a large amount of tokens. Asymmetrical
     # between token0 and token1 to avoid masking errors.
     accountNames = ["ALICE", "BOB", "CHARLIE", "DENICE", "EVA", "FINN"]
     accounts = [
@@ -472,7 +471,6 @@ def test_notAllowPoke_uninitialized_position(initializedMediumPool, accounts):
     )
     swapExact0For1(pool, expandTo18Decimals(1) // 10, accounts[0], None)
     swapExact1For0(pool, expandTo18Decimals(1) // 100, accounts[0], None)
-    # Modified revert reason because a check is added in burn for uninitialized position
     tryExceptHandler(
         pool.burn,
         "Position doesn't exist",
@@ -550,7 +548,6 @@ def test_notClearPosition_ifNoMoreLiquidity(accounts, mediumPoolInitializedAtZer
     assert positionInfo.feeGrowthInside1LastX128 == 340282366920938463463374607431768211
 
 
-# Continue UniswapV3Pool.spects.ts line 596
 def test_clearsTick_ifLastPosition(accounts, mediumPoolInitializedAtZero):
     print("clears the tick if its the last position using it")
     pool, minTick, maxTick, _, tickSpacing = mediumPoolInitializedAtZero
@@ -1525,15 +1522,6 @@ def test_unchangedProtocolFee_returns(initializedSetFeeProtPool):
     assert feeProtocol1 == 9
 
 
-# fees overflow scenarios => they seem to test the feeGrowth overflow in the
-# flash function so we can skip those tests.
-
-
-# Swap underpayment tests => we don't really need to replicate those since we don't
-# use callbacks, we just do the transfer in the pool itself. However, it is useful to
-# check that we can't transfer more than the balances
-
-
 @pytest.fixture
 def initializedPoolSwapBalances(initializedSetFeeProtPool, accounts):
     pool, minTick, maxTick, _, _ = initializedSetFeeProtPool
@@ -1605,10 +1593,9 @@ def test_notEnoughBalance_token1(initializedPoolSwapBalances, accounts, ledger):
     assert ledger.balanceOf(accounts[2], TEST_TOKENS[1]) == initialBalanceToken1
 
 
-# Extra tests since there are modifications in the python UniswapPool
-
-# Due to the difference in mappings between the python and the solidity we
-# have added an assertion when positions don't exist (to not create it)
+# Extra tests since there are modifications in the python UniswapPool. Due to the difference
+# in mappings between the python and the solidity we have added an assertion when positions
+# don't exist (to not create it).
 def test_fails_collectEmpty(createPoolMedium, accounts):
     print("Cannot collect a non-existent position")
     pool, minTick, maxTick, _, _ = createPoolMedium

@@ -1,15 +1,22 @@
 from .Shared import checkInputTypes
 from ..UniswapPool import *
 
-
+## @title Pool factory
+## @notice Deploys Uniswap V3 pools and manages ownership and control over pool protocol fees
 class Factory:
     def __init__(self):
         self.feeAmountTickSpacing = {500: 10, 3000: 60, 10000: 200}
-        # Altered version of getPool to make it easier
         self.getPool = []
 
-    ## @param fee The fee amount to enable, denominated in hundredths of a bip (i.e. 1e-6)
-    ## @param tickSpacing The spacing between ticks to be enforced for all pools created with the given fee amount
+    ## @notice Creates a pool for the given two tokens and fee
+    ## @param tokenA One of the two tokens in the desired pool
+    ## @param tokenB The other of the two tokens in the desired pool
+    ## @param fee The desired fee for the pool
+    ## @param ledger Reference to the ledger
+    ## @dev tokenA and tokenB may be passed in either order: token0/token1 or token1/token0. tickSpacing is retrieved
+    ## from the fee. The call will revert if the pool already exists, the fee is invalid, or the token arguments
+    ## are invalid.
+    ## @return pool The address of the newly created pool
     def createPool(self, tokenA, tokenB, fee, ledger):
         checkInputTypes(string=(tokenA, tokenB), uint24=(fee))
         assert tokenA != tokenB
@@ -29,6 +36,10 @@ class Factory:
 
         return pool
 
+    ## @notice Enables a fee amount with the given tickSpacing
+    ## @dev Fee amounts may never be removed once enabled
+    ## @param fee The fee amount to enable, denominated in hundredths of a bip (i.e. 1e-6)
+    ## @param tickSpacing The spacing between ticks to be enforced for all pools created with the given fee amount
     def enableFeeAmount(self, fee, tickSpacing):
         checkInputTypes(uint24=(fee), int24=(tickSpacing))
         assert fee < 1000000

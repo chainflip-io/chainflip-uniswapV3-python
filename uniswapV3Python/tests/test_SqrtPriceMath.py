@@ -1,12 +1,7 @@
 from .utilities import *
 from ..src.libraries import TickMath, SqrtPriceMath
 
-# Division in solidity and in python (and js) retrun slightly different values when dividing. E.g. mulDivRoundingUp => a*b/c will return
-# different values. Also, we have removed some of the rounding in the contracts, which
-# makes the result to check slightly different.
 
-
-# test_fromInput_SqrtPriceMath():
 def test_fromInput_fails_price_zero():
     print("fails if price is zero")
     tryExceptHandler(
