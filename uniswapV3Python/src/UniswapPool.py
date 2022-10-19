@@ -114,6 +114,9 @@ class UniswapPool(Account):
         assert tickLower >= TickMath.MIN_TICK, "TLM"
         assert tickUpper <= TickMath.MAX_TICK, "TUM"
 
+    ### @notice Sets the initial price for the pool
+    ### @dev Price is represented as a sqrt(amountToken1/amountToken0) Q64.96 value
+    ### @param sqrtPriceX96 the initial sqrt price of the pool as a Q64.96
     def initialize(self, sqrtPriceX96):
         checkInputTypes(uint160=(sqrtPriceX96))
         assert self.slot0.sqrtPriceX96 == 0, "AI"
@@ -561,6 +564,9 @@ class UniswapPool(Account):
             state.tick,
         )
 
+    ### @notice Set the denominator of the protocol's % share of the fees
+    ### @param feeProtocol0 new protocol fee for token0 of the pool
+    ### @param feeProtocol1 new protocol fee for token1 of the pool
     def setFeeProtocol(self, feeProtocol0, feeProtocol1):
         checkInputTypes(uint8=(feeProtocol0, feeProtocol1))
         assert (feeProtocol0 == 0 or (feeProtocol0 >= 4 and feeProtocol0 <= 10)) and (
@@ -574,6 +580,12 @@ class UniswapPool(Account):
         self.slot0.feeProtocol = feeProtocolNew
         return (feeProtocolOld % 16, feeProtocolOld >> 4, feeProtocol0, feeProtocol1)
 
+    ### @notice Collect the protocol fee accrued to the pool
+    ### @param recipient The address to which collected protocol fees should be sent
+    ### @param amount0Requested The maximum amount of token0 to send, can be 0 to collect fees in only token1
+    ### @param amount1Requested The maximum amount of token1 to send, can be 0 to collect fees in only token0
+    ### @return amount0 The protocol fee collected in token0
+    ### @return amount1 The protocol fee collected in token1
     def collectProtocol(self, recipient, amount0Requested, amount1Requested):
         checkInputTypes(
             accounts=(recipient), uint128=(amount0Requested, amount1Requested)
@@ -603,13 +615,14 @@ class UniswapPool(Account):
 
         return recipient, amount0, amount1
 
-    # It is assumed that the keys are within [MIN_TICK , MAX_TICK], which should always be the case.
-    # We don't run the risk of overshooting tickNext (out of boundaries) as long as ticks (keys) have been initialized
-    # within the boundaries. However, if there is no initialized tick to the left or right we will return the next boundary
-    # Then we need to return the initialized bool to indicate that we are at the boundary and it is not an initalized tick.
+    ### @notice It is assumed that the keys are within [MIN_TICK , MAX_TICK], which should always be the case.
+    ### We don't run the risk of overshooting tickNext (out of boundaries) as long as ticks (keys) have been initialized
+    ### within the boundaries. However, if there is no initialized tick to the left or right we will return the next boundary
+    ### Then we need to return the initialized bool to indicate that we are at the boundary and it is not an initalized tick.
     ### @param self The mapping in which to compute the next initialized tick
     ### @param tick The starting tick
     ### @param lte Whether to search for the next initialized tick to the left (less than or equal to the starting tick)
+    ### @return Next tick with liquidity to be used in the swap function.
     def nextTick(self, tick, lte):
         checkInputTypes(int24=(tick), bool=(lte))
 
