@@ -245,9 +245,10 @@ def test_fromOutput_outputAmount_token1_zeroForOne():
 
 def test_fails_impossibleAmountOut_zeroForOne():
     print("reverts if amountOut is impossible in zero for one direction")
+    # Reverts in divRoundingUp
     tryExceptHandler(
         SqrtPriceMath.getNextSqrtPriceFromOutput,
-        "",
+        "OF or UF of UINT256",
         encodePriceSqrt(1, 1),
         1,
         int(TickMath.MAX_UINT256 / 2),

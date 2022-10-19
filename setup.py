@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="uniswapV3Python",
-    version="0.0.1",
+    version="0.0.2",
     author="Chainflip Labs",
     author_email="albert@chainflip.io",
     description="Pythonized Uniswap V3",
