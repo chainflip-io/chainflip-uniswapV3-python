@@ -38,7 +38,7 @@ To be able to easily use this code outside the repository itself, it has been in
 
 Via Pip:
 
-`pip install -i https://test.pypi.org/simple/ uniswapV3Python`
+`pip install -i https://pypi.org/simple/ uniswapV3Python`
 
 Via Poetry:
 
